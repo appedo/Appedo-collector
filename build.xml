@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<project name="appedo_collector" default="package">
+	<path id="libpath">
+		<fileset dir="WebRoot/WEB-INF/lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path> 
+	
+	<target name="init">
+		<property name="src_dir" value="src"/>
+		<property name="resource" value="com/appedo/webcollector/webserver/resource"/>
+		<property name="classes" value="appedo_temp/classes"/>
+		<property name="wars" value="appedo_temp/wars"/>
+		<property name="web.xml" value="WebRoot/WEB-INF/web.xml"/>
+	</target>		
+	
+	<target name="clean" depends="init">
+		<delete dir="appedo_temp"/>
+	</target>
+	
+	<target name="prepare" depends="clean">
+		<mkdir dir="${classes}"/>
+		<mkdir dir="${wars}"/>
+	</target>
+	
+	<target name="compile" depends="prepare">
+		<javac destdir="${classes}" debug="true" debuglevel="lines,vars,source" includeantruntime="false">
+			<src path="${src_dir}"/>
+			<classpath refid="libpath"/>
+		</javac>
+	</target>
+	
+	<target name="package" depends="compile">
+		<copy file="${src_dir}/${resource}/config.properties" todir="${classes}/${resource}"/>
+		<copy file="${src_dir}/${resource}/log4j.properties" todir="${classes}/${resource}"/>
+		<war destfile="${wars}/appedo_collector.war" webxml="${web.xml}">
+			<fileset dir="WebRoot"/>
+			<classes dir="${classes}"/>
+		</war>
+		<copy file="${wars}/appedo_collector.war" todir="/opt/artifacts"/>
+	</target>
+</project>

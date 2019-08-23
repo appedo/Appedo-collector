@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>Appedo-Collector</display-name>
+
+	<!-- Version number -->
+	<context-param>
+		<param-name>version</param-name>
+		<param-value>3.0.126</param-value>
+		<!-- Major.Minor.Build.Revision -->
+	</context-param>
+	<context-param>
+		<param-name>VersionLastUpdate</param-name>
+		<param-value>2019-01-23 13:35</param-value>
+	</context-param>
+	
+	<context-param>
+		<description>Config file properties</description>
+		<param-name>CONFIG_PROPERTIES_FILE_PATH</param-name>
+		<param-value>/WEB-INF/classes/com/appedo/webcollector/webserver/resource/config.properties</param-value>
+	</context-param>
+	
+	<context-param>
+		<description>log4j file properties</description>
+		<param-name>LOG4J_PROPERTIES_FILE_PATH</param-name>
+		<param-value>/WEB-INF/classes/com/appedo/webcollector/webserver/resource/log4j.properties</param-value>
+	</context-param>
+	
+	<!-- Application class name -->
+	<context-param>
+		<param-name>org.restlet.application</param-name>
+		<param-value>com.appedo.webcollector.webserver.controller.AppedoCollector_WebApplication</param-value>
+	</context-param>
+
+	<!-- Restlet servlet -->
+	<servlet>
+		<servlet-name>RestletServlet</servlet-name>
+		<servlet-class>com.noelios.restlet.ext.servlet.ServerServlet</servlet-class>
+	</servlet>
+	<!-- Catch all requests to restlet servlet -->
+	<servlet-mapping>
+		<servlet-name>RestletServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- Init servlet for context parameters initialization -->
+	<servlet>
+		<servlet-name>InitServlet</servlet-name>
+		<servlet-class>com.appedo.webcollector.webserver.servlet.InitServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+
+
+
+
+	<!-- ========================================================== -->
+	<!-- Listeners -->
+	<!-- ========================================================== -->
+
+	<!-- Listener for the application -->
+	<listener>
+		<listener-class>com.appedo.webcollector.webserver.listner.AppedoCollectorServletContext</listener-class>
+	</listener>
+
+
+</web-app>
